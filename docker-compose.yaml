@@ -1,0 +1,22 @@
+version: 'latest'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+  backend_process:
+    build: .
+    image: paytm_app:1.0
+    container_name: paytm_app
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:3000
+    environment:
+      MONGO_URL: "mongodb://mongodb:27017/mydatabase"
+volumes:
+  mongodb_data:
